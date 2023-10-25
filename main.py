@@ -12,7 +12,7 @@ from selenium.common.exceptions import NoSuchElementException
 TWITER_LOGIN = "YOUR EMAIL"
 TWITER_PASSWORD = "YOUR PASSWORD"
 TWITTER_USERNAME = "YOUR USERNAME"
-
+YOU_INTERNET_PROVIDER = 'internet provider name'
 
 service = Service(r"C:\chrom_driver\chromedriver.exe")
 
