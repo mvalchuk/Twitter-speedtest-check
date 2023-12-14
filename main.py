@@ -10,9 +10,9 @@ class Internet_speedtest_Bot:
         self.driver.implicitly_wait(10)
         self.download_speed = 0
         self.upload_speed = 0
-        self.xlogin = 'm.valchuk07@gmail.com'
-        self.xpassword = 'Maxass5246!'
-        self.name = 'MaksymValchuk'
+        self.xlogin = 'your login'
+        self.xpassword = 'your password'
+        self.name = 'your name'
 
     # Getting actual internet speed
     def run_speed_test(self):
