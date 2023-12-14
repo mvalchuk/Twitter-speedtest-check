@@ -1,81 +1,57 @@
 import time
-
-import selenium
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException
 
 
 
-TWITER_LOGIN = "YOUR EMAIL"
-TWITER_PASSWORD = "YOUR PASSWORD"
-TWITTER_USERNAME = "YOUR USERNAME"
-YOU_INTERNET_PROVIDER = 'internet provider name'
-
-service = Service(r"C:\chrom_driver\chromedriver.exe")
-
-
-
-
-class InternetSpeedTwitterBot:
-    import time
-
+class Internet_speedtest_Bot:
     def __init__(self):
-        self.driver = webdriver.Chrome(service=service)
-        self.down = 0
-        self.up = 0
-    def get_internet_speed(self):
-        self.driver.get("http://speedtest.net")
-        self.go = self.driver.find_element(By.XPATH, '//*[@id="container"]/div/div[3]/div/div/div/div[2]/div[3]/div[1]/a/span[4]')
-        self.time.sleep(10)
-        self.go.click()
-        self.time.sleep(60)
-        self.upspped = self.driver.find_element(By.XPATH, '//*[@id="container"]/div/div[3]/div/div/div/div[2]/div[3]/div[3]/div/div[3]/div/div/div[2]/div[1]/div[1]/div/div[2]/span')
-        self.up = self.upspped.text
-        self.downspeed = self.driver.find_element(By.XPATH, '//*[@id="container"]/div/div[3]/div/div/div/div[2]/div[3]/div[3]/div/div[3]/div/div/div[2]/div[1]/div[2]/div/div[2]/span')
-        self.down = self.downspeed.text
-        self.down = (f" down: {self.up}")
-        self.up = (f" up: {self.down}")
+        self.driver = webdriver.Chrome()
+        self.driver.implicitly_wait(10)
+        self.download_speed = 0
+        self.upload_speed = 0
+        self.xlogin = 'm.valchuk07@gmail.com'
+        self.xpassword = 'Maxass5246!'
+        self.name = 'MaksymValchuk'
+
+    # Getting actual internet speed
+    def run_speed_test(self):
+        self.driver.get('https://speedtest.xfinity.com/')
+        self.driver.find_element(By.XPATH, '//*[@id="app"]/div[2]/div[1]/div/div/div/button').click()
+        time.sleep(20)
+        download_data = self.driver.find_element(By.XPATH, '//*[@id="app"]/div[2]/details/summary/div/dl/dd').text
+        # Stored download speed data
+        self.download_speed = download_data
+        self.driver.find_element(By.XPATH, '//*[@id="app"]/div[2]/details/summary/div/div/p').click()
+        time.sleep(15)
+        upload_data = self.driver.find_element(By.XPATH, '//*[@id="app"]/div[2]/details/div/div/dl/div[1]/dd').text
+        # Stored upload speed data
+        self.upload_speed = upload_data
+
+    # Login to social media
+    def twitter_login(self):
+        self.driver.get('https://x.com')
+        self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div[1]/div[1]/div/div[3]/div[5]/a/div/span/span').click()
+        self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[5]/label/div/div[2]/div/input').send_keys(self.xlogin)
+        self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[6]/div').click()
+        self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div[2]/label/div/div[2]/div/input').send_keys(self.name)
+        self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div/div/div/div').click()
+        self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div/div[3]/div/label/div/div[2]/div[1]/input').send_keys(self.xpassword)
+        self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div[1]/div/div/div/div').click()
+        self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/header/div/div/div/div[1]/div[3]/a/div').click()
+        self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div/div[3]/div[2]/div[1]/div/div/div/div[1]/div[2]/div/div/div/div/div/div/div/div/div/div/div/label/div[1]/div/div/div/div/div/div[2]/div/div/div/div').send_keys(f'Hello Xfinity, why my internet speed for download: {self.download_speed} and upload:{self.upload_speed}, instead 400/100 what I am paying for!!!')
+        self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div/div[3]/div[2]/div[1]/div/div/div/div[2]/div[2]/div/div/div/div[4]/div/span/span').click()
+        time.sleep(10)
+        self.driver.quit()
+
+
+# Run our Bot
+Bot = Internet_speedtest_Bot()
+Bot.run_speed_test()
+Bot.twitter_login()
 
 
 
-
-    def tweet_at_provider(self):
-        self.driver.get('http://twitter.com')
-        self.twitter = self.driver.find_element(By.XPATH, '/html/body/div[1]/div/div/div[2]/main/div/div/div[1]/div/div/div[3]/div[5]/a/div')
-        self.twitter.click()
-        self.time.sleep(3)
-        self.login = self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[5]/label/div/div[2]/div/input')
-        self.login.send_keys(TWITER_LOGIN)
-        self.time.sleep(3)
-        self.login.send_keys(Keys.ENTER)
-        self.time.sleep(3)
-        self.name = self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div[2]/label/div/div[2]/div/input')
-        self.name.send_keys(TWITTER_USERNAME)
-        self.time.sleep(3)
-        self.name.send_keys(Keys.ENTER)
-        self.time.sleep(3)
-        self.password = self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div/div[3]/div/label/div/div[2]/div[1]/input')
-        self.password.send_keys(TWITER_PASSWORD)
-        self.time.sleep(3)
-        self.password.send_keys(Keys.ENTER)
-        self.time.sleep(10)
-        self.tw = self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[3]/div/div[2]/div[1]/div/div/div/div[2]/div[1]/div/div/div/div/div/div[2]/div/div/div/div/label/div[1]/div/div/div/div/div/div[2]/div/div/div/div')
-        self.tw.click()
-        self.time.sleep(3)
-        self.tw.send_keys(f'Hey Xfinity, why is my internet speed {self.down}/{self.up}  when I pay for 400down/10up? ')
-        self.time.sleep(5)
-        self.button = self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div[2]/div[1]/div/div/div/div[2]/div[3]/div/div/div[2]/div/div/span/span')
-        self.button.click()
-        self.time.sleep(15)
-        print("Done")
-
-
-bot = InternetSpeedTwitterBot()
-bot.get_internet_speed()
-bot.tweet_at_provider()
 
 
 
